@@ -1,7 +1,9 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true,
+    "strict": false,
+    "allowJs": true,
+    "jsx": "react-native",
     "paths": {
       "@/*": [
         "./*"
@@ -9,9 +11,11 @@
     }
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-  ]
+    "**/*.ts",                              
+    "**/*.tsx",                             
+    ".expo/types/**/*.ts",                  
+    "expo-env.d.ts",                        
+    "app/(tabs)/smile-detector.rsx"        
+, "app/(tabs)/smile-capturer.jsx"  ],
+   "exclude": ["node_modules"]
 }
