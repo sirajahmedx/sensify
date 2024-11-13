@@ -11,7 +11,7 @@ import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { Audio } from "expo-av";
-import { Asset } from 'expo-asset';
+import { Asset } from "expo-asset";
 
 export default function HomeScreen() {
    return (
@@ -77,7 +77,7 @@ export default function HomeScreen() {
                      </Text>
                      <TouchableOpacity
                         style={styles.viewButton}
-                        onPress={() => router.push("/(tabs)/speed-meter")}
+                        // onPress={() => router.push("/(tabs)/speed-meter")}
                      >
                         <Text style={styles.viewButtonText}>View Sensor</Text>
                      </TouchableOpacity>
