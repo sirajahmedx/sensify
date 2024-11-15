@@ -35,6 +35,19 @@ export default function TabLayout() {
          }}
       >
          <Tabs.Screen
+            name="index"
+            options={{
+               title: "Home",
+               tabBarIcon: ({ color, focused }) => (
+                  <Ionicons
+                     name={focused ? "home" : "home-outline"}
+                     size={28}
+                     color={color}
+                  />
+               ),
+            }}
+         />
+         <Tabs.Screen
             name="ambient-light-sensor"
             options={{
                title: "Ambient Light",
@@ -60,19 +73,7 @@ export default function TabLayout() {
                ),
             }}
          />
-         <Tabs.Screen
-            name="index"
-            options={{
-               title: "Home",
-               tabBarIcon: ({ color, focused }) => (
-                  <Ionicons
-                     name={focused ? "home" : "home-outline"}
-                     size={28}
-                     color={color}
-                  />
-               ),
-            }}
-         />
+
          <Tabs.Screen
             name="speed-meter"
             options={{
@@ -80,19 +81,6 @@ export default function TabLayout() {
                tabBarIcon: ({ color, focused }) => (
                   <Ionicons
                      name={focused ? "speedometer" : "speedometer-outline"}
-                     size={28}
-                     color={color}
-                  />
-               ),
-            }}
-         />
-         <Tabs.Screen
-            name="step-counter"
-            options={{
-               title: "Step Counter",
-               tabBarIcon: ({ color, focused }) => (
-                  <Ionicons
-                     name={focused ? "footsteps" : "footsteps-outline"}
                      size={28}
                      color={color}
                   />

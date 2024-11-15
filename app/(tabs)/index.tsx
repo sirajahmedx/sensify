@@ -29,7 +29,6 @@ export default function HomeScreen() {
                </View>
 
                <View style={styles.creatorContainer}>
-                  <Text style={styles.creatorText}>By Mud House Studio</Text>
                   <Text style={styles.creatorName}>Created by Siraj Ahmed</Text>
                   <Text style={styles.subText}>
                      A collection of useful sensor tools for your device
