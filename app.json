@@ -1,39 +1,40 @@
 {
-  "expo": {
-    "name": "sensor-suite",
-    "slug": "sensor-suite",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+   "expo": {
+      "name": "sensor-suite",
+      "slug": "sensor-suite",
+      "version": "1.0.0",
+      "orientation": "portrait",
+      "icon": "./assets/images/icon.png",
+      "scheme": "myapp",
+      "userInterfaceStyle": "automatic",
+      "newArchEnabled": true,
+      "splash": {
+         "image": "./assets/images/splash.png",
+         "resizeMode": "contain",
+         "backgroundColor": "#ffffff"
       },
-      "hermes": false
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
-    },
-    "plugins": [
-      "expo-router",
-      "expo-font"
-    ],
-    "experiments": {
-      "typedRoutes": true
-    }
-  }
+      "ios": {
+         "supportsTablet": true,
+         "infoPlist": {
+            "NSLocationWhenInUseUsageDescription": "This app requires location access to measure distances."
+         }
+      },
+      "android": {
+         "adaptiveIcon": {
+            "foregroundImage": "./assets/images/adaptive-icon.png",
+            "backgroundColor": "#ffffff"
+         },
+         "hermes": false,
+         "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
+      },
+      "web": {
+         "bundler": "metro",
+         "output": "static",
+         "favicon": "./assets/images/favicon.png"
+      },
+      "plugins": ["expo-router", "expo-font"],
+      "experiments": {
+         "typedRoutes": true
+      }
+   }
 }

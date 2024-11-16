@@ -75,12 +75,12 @@ export default function TabLayout() {
          />
 
          <Tabs.Screen
-            name="speed-meter"
+            name="ball-game"
             options={{
-               title: "Speed Meter",
+               title: "Ball Game",
                tabBarIcon: ({ color, focused }) => (
                   <Ionicons
-                     name={focused ? "speedometer" : "speedometer-outline"}
+                     name={focused ? "list-circle" : "mic-circle-outline"}
                      size={28}
                      color={color}
                   />

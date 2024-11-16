@@ -132,12 +132,13 @@ const AmbientLightSensor: React.FC = () => {
             "An error occurred while initializing the light sensor."
          );
       }
-   }, [currentState, getLightState, colorAnim]);
+   }, [currentState, getLightState, colorAnim, isFocused]);
 
    useEffect(() => {
       if (isFocused) {
          initSensor();
       }
+
       return () => {
          if (subscription) {
             subscription.remove();

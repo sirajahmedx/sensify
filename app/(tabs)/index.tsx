@@ -29,7 +29,6 @@ export default function HomeScreen() {
                </View>
 
                <View style={styles.creatorContainer}>
-                  <Text style={styles.creatorName}>Created by Siraj Ahmed</Text>
                   <Text style={styles.subText}>
                      A collection of useful sensor tools for your device
                   </Text>
@@ -69,10 +68,11 @@ export default function HomeScreen() {
                   </View>
 
                   <View style={styles.card}>
-                     <Ionicons name="speedometer" size={32} color="#4dabf7" />
-                     <Text style={styles.cardTitle}>Speedometer</Text>
+                     <Ionicons name="sync-circle" size={32} color="#4dabf7" />
+                     <Text style={styles.cardTitle}>Ball Game</Text>
                      <Text style={styles.cardDescription}>
-                        Measure your speed in real-time and track your movement.
+                        Navigate a ball using your device's motion sensors to
+                        reach the screen's center.
                      </Text>
                      <TouchableOpacity
                         style={styles.viewButton}
@@ -81,25 +81,29 @@ export default function HomeScreen() {
                         <Text style={styles.viewButtonText}>View Sensor</Text>
                      </TouchableOpacity>
                   </View>
-
-                  <View style={styles.card}>
-                     <Ionicons name="footsteps" size={32} color="#4F46E5" />
-                     <Text style={styles.cardTitle}>Step Counter</Text>
-                     <Text style={styles.cardDescription}>
-                        Track your daily steps and reach your fitness goals with
-                        real-time step counting.
-                     </Text>
-                     <TouchableOpacity
-                        style={styles.viewButton}
-                        onPress={() => router.push("/(tabs)/step-counter")}
-                     >
-                        <Text style={styles.viewButtonText}>View Sensor</Text>
-                     </TouchableOpacity>
-                  </View>
                </View>
             </ScrollView>
          </SafeAreaView>
       </>
+   );
+}
+
+function circle() {
+   return (
+      <svg
+         xmlns="http://www.w3.org/2000/svg"
+         width="24"
+         height="24"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         className="lucide lucide-circle"
+      >
+         <circle cx="12" cy="12" r="10" />
+      </svg>
    );
 }
 
