@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
    StyleSheet,
    View,
@@ -10,7 +10,7 @@ import {
 import { Accelerometer } from "expo-sensors";
 
 const { width, height } = Dimensions.get("window");
-const BALL_SIZE = 50;
+const BALL_SIZE = 43;
 const CENTER_THRESHOLD = 10;
 const WIN_DURATION = 5000;
 
@@ -39,17 +39,17 @@ export default function App() {
    }, [isActive]);
 
    useEffect(() => {
-      if (!isActive) return;
+      if (!isActive || hasWon) return;
 
       const { x, y } = data;
       setPosition((prev) => ({
          x: Math.max(0, Math.min(width - BALL_SIZE, prev.x - x * 20)),
          y: Math.max(0, Math.min(height - BALL_SIZE, prev.y + y * 20)),
       }));
-   }, [data, isActive]);
+   }, [data, isActive, hasWon]);
 
    useEffect(() => {
-      if (!isActive) return;
+      if (!isActive || hasWon) return;
 
       const centerX = width / 2;
       const centerY = height / 2;
@@ -78,7 +78,7 @@ export default function App() {
                   setHasWon(true);
                   Animated.timing(winAnimation, {
                      toValue: 1,
-                     duration: 500,
+                     duration: 1000,
                      useNativeDriver: true,
                   }).start();
                }
@@ -90,15 +90,15 @@ export default function App() {
       }
    }, [position, holdStartTimeRef, hasWon, isActive]);
 
-   const resetGame = () => {
+   const resetGame = useCallback(() => {
       setHasWon(false);
       setHoldProgress(0);
       holdStartTimeRef.current = null;
       setPosition({ x: width / 2, y: height / 2 });
       winAnimation.setValue(0);
-   };
+   }, [winAnimation]);
 
-   const getProgressMessage = () => {
+   const getProgressMessage = useCallback(() => {
       if (holdProgress === 0) {
          return "Move the ball to the center and hold for 5 seconds!";
       }
@@ -106,7 +106,7 @@ export default function App() {
          (WIN_DURATION - (WIN_DURATION * holdProgress) / 100) / 1000
       );
       return `Keep holding! ${remainingSeconds} seconds remaining`;
-   };
+   }, [holdProgress]);
 
    return (
       <View style={styles.container}>
@@ -122,6 +122,12 @@ export default function App() {
                               scale: winAnimation.interpolate({
                                  inputRange: [0, 1],
                                  outputRange: [1, 1.5],
+                              }),
+                           },
+                           {
+                              rotate: winAnimation.interpolate({
+                                 inputRange: [0, 1],
+                                 outputRange: ["0deg", "360deg"],
                               }),
                            },
                         ],
@@ -155,7 +161,7 @@ export default function App() {
                   left: position.x - BALL_SIZE / 2,
                   top: position.y - BALL_SIZE / 2,
                   backgroundColor: holdProgress
-                     ? `rgba(255, ${87 + (168 * holdProgress) / 100}, 34, 0.9)`
+                     ? `rgba(0, ${87 + (168 * holdProgress) / 100}, 34, 0.9)`
                      : "#FF6D3F",
                   shadowColor: "#FF4500",
                   shadowOffset: { width: 0, height: 5 },
@@ -194,7 +200,7 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: "#003973",
+      backgroundColor: "#BCEAFF", // Off-white background for the container
    },
    messageContainer: {
       position: "absolute",
@@ -204,13 +210,13 @@ const styles = StyleSheet.create({
    },
    info: {
       fontSize: 20,
-      color: "#FFF",
+      color: "#333333", // Dark gray for text
       textAlign: "center",
    },
    progressText: {
       fontSize: 28,
       fontWeight: "bold",
-      color: "#FF4500",
+      color: "#007bff", // Blue for progress text
    },
    ball: {
       position: "absolute",
@@ -225,7 +231,7 @@ const styles = StyleSheet.create({
       width: 50,
       height: 50,
       borderRadius: 25,
-      backgroundColor: "rgba(255,255,255,0.3)",
+      backgroundColor: "rgba(255,255,255,0.5)", // Adjusted background color for visibility
       justifyContent: "center",
       alignItems: "center",
    },
@@ -233,7 +239,7 @@ const styles = StyleSheet.create({
       width: 10,
       height: 10,
       borderRadius: 5,
-      backgroundColor: "#FFF",
+      backgroundColor: "#000", // Changed to black for visibility
    },
    winTextContainer: {
       alignItems: "center",
@@ -241,17 +247,17 @@ const styles = StyleSheet.create({
    winText: {
       fontSize: 28,
       fontWeight: "bold",
-      color: "#FFD700",
+      color: "#007bff", // Blue for win text
       marginBottom: 20,
    },
    resetButton: {
-      backgroundColor: "#0066FF",
+      backgroundColor: "#007bff", // Blue for reset button
       paddingVertical: 10,
       paddingHorizontal: 30,
       borderRadius: 25,
    },
    resetButtonText: {
-      color: "#FFF",
+      color: "#FFF", // White for reset button text
       fontSize: 16,
    },
    buttonsContainer: {
@@ -265,13 +271,13 @@ const styles = StyleSheet.create({
       paddingVertical: 12,
       paddingHorizontal: 20,
       borderRadius: 20,
-      backgroundColor: "#0066FF",
+      backgroundColor: "#007bff", // Blue for button
    },
    buttonDisabled: {
-      backgroundColor: "#555",
+      backgroundColor: "#999", // Gray for disabled button
    },
    buttonText: {
-      color: "#FFF",
+      color: "#FFF", // White for button text
       fontSize: 16,
    },
 });

@@ -8,10 +8,8 @@ import {
 } from "react-native";
 import { HelloWave } from "@/components/HelloWave";
 import { router } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons"; // Changed to FontAwesome
 import { StatusBar } from "expo-status-bar";
-import { Audio } from "expo-av";
-import { Asset } from "expo-asset";
 
 export default function HomeScreen() {
    return (
@@ -36,7 +34,7 @@ export default function HomeScreen() {
 
                <View style={styles.cardsContainer}>
                   <View style={styles.card}>
-                     <Ionicons name="sunny" size={32} color="#ffd43b" />
+                     <FontAwesome name="sun-o" size={32} color="#FFEB3B" />
                      <Text style={styles.cardTitle}>Ambient Light Sensor</Text>
                      <Text style={styles.cardDescription}>
                         Measure surrounding light levels and get real-time
@@ -53,7 +51,7 @@ export default function HomeScreen() {
                   </View>
 
                   <View style={styles.card}>
-                     <Ionicons name="magnet" size={32} color="#ff6b6b" />
+                     <FontAwesome name="magnet" size={32} color="#FF6F61" />
                      <Text style={styles.cardTitle}>Magnet Detector</Text>
                      <Text style={styles.cardDescription}>
                         Detect magnetic fields with audio and vibration
@@ -68,7 +66,7 @@ export default function HomeScreen() {
                   </View>
 
                   <View style={styles.card}>
-                     <Ionicons name="stop-circle" size={32} color="#4dabf7" />
+                     <FontAwesome name="futbol-o" size={32} color="#A7FFEB" />
                      <Text style={styles.cardTitle}>Ball Game</Text>
                      <Text style={styles.cardDescription}>
                         Navigate a ball using your device's motion sensors to
@@ -83,7 +81,7 @@ export default function HomeScreen() {
                   </View>
 
                   <View style={styles.card}>
-                     <Ionicons name="arrow-redo" size={32} color="#4dabf7" />
+                     <FontAwesome name="arrows" size={32} color="#B2DFDB" />
                      <Text style={styles.cardTitle}>
                         Surface Level Detector
                      </Text>
@@ -93,7 +91,9 @@ export default function HomeScreen() {
                      </Text>
                      <TouchableOpacity
                         style={styles.viewButton}
-                        onPress={() => router.push("/(tabs)/tilt-game")}
+                        onPress={() =>
+                           router.push("/(tabs)/surface-level-detector")
+                        }
                      >
                         <Text style={styles.viewButtonText}>View Sensor</Text>
                      </TouchableOpacity>
@@ -105,53 +105,28 @@ export default function HomeScreen() {
    );
 }
 
-function circle() {
-   return (
-      <svg
-         xmlns="http://www.w3.org/2000/svg"
-         width="24"
-         height="24"
-         viewBox="0 0 24 24"
-         fill="none"
-         stroke="currentColor"
-         stroke-width="2"
-         stroke-linecap="round"
-         stroke-linejoin="round"
-         className="lucide lucide-circle"
-      >
-         <circle cx="12" cy="12" r="10" />
-      </svg>
-   );
-}
-
 const styles = StyleSheet.create({
    safeArea: {
       flex: 1,
-      backgroundColor: "#ffffff",
+      backgroundColor: "#F8F8F8", // Off-white background for safe area
       paddingTop: 50,
    },
    container: {
       flex: 1,
-      backgroundColor: "#ffffff",
+      backgroundColor: "#F8F8F8", // Off-white background for the container
    },
    contentContainer: {
       padding: 20,
       paddingBottom: 100,
    },
    titleContainer: {
+      width: "100%",
+      display: "flex",
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: "#ffffff",
-      gap: 12,
-      marginBottom: 12,
-      paddingHorizontal: 16,
-      paddingVertical: 6,
-      borderRadius: 16,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
-      elevation: 3,
+      backgroundColor: "#F8F8F8",
+      marginBottom: 10,
    },
    creatorContainer: {
       alignItems: "center",
@@ -159,29 +134,29 @@ const styles = StyleSheet.create({
    },
    creatorText: {
       fontSize: 16,
-      color: "#666",
+      color: "#333333", // Dark Gray for text
       fontStyle: "italic",
    },
    creatorName: {
       fontSize: 14,
-      color: "#666",
+      color: "#333333", // Dark Gray for text
       marginTop: 4,
    },
    subText: {
-      fontSize: 14,
-      color: "#888",
+      fontSize: 16,
+      color: "#757575", // Light Gray for text/secondary elements
       marginTop: 4,
    },
    title: {
       fontSize: 24,
       fontWeight: "bold",
-      color: "#212529",
+      color: "#333333", // Dark Gray for text
    },
    cardsContainer: {
       gap: 20,
    },
    card: {
-      backgroundColor: "#F7F7F7",
+      backgroundColor: "#FFFFFF", // White background for each card
       borderRadius: 16,
       padding: 20,
       alignItems: "center",
@@ -194,30 +169,30 @@ const styles = StyleSheet.create({
    cardTitle: {
       fontSize: 18,
       fontWeight: "600",
-      color: "#343a40",
+      color: "#333333", // Dark Gray for text
       marginTop: 12,
       marginBottom: 8,
    },
    cardDescription: {
       textAlign: "center",
-      color: "#495057",
+      color: "#757575", // Light Gray for text/secondary elements
       marginBottom: 12,
    },
    cardFeatures: {
-      color: "#666",
+      color: "#757575", // Light Gray for text/secondary elements
       fontSize: 14,
       marginBottom: 16,
       alignSelf: "flex-start",
    },
    viewButton: {
-      backgroundColor: "#228be6",
+      backgroundColor: "#87CEEB", // Soft Sky Blue for View Sensor button
       paddingHorizontal: 24,
       paddingVertical: 12,
       borderRadius: 8,
       width: "100%",
    },
    viewButtonText: {
-      color: "#ffffff",
+      color: "#333333", // Dark Gray for text
       fontWeight: "600",
       textAlign: "center",
    },

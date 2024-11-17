@@ -1,18 +1,17 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { FontAwesome } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import { View } from "react-native";
 
 export default function TabLayout() {
    return (
       <Tabs
          screenOptions={{
-            tabBarActiveTintColor: "#228be6",
-            tabBarInactiveTintColor: "#242729",
+            tabBarActiveTintColor: "#87CEEB", // Soft Sky Blue
+            tabBarInactiveTintColor: "#757575", // Light Gray for text/secondary elements
             headerShown: false,
             tabBarStyle: {
                borderTopWidth: 0,
                height: 70,
-               backgroundColor: "#FFFFFF",
+               backgroundColor: "#F8F8F8", // Off-white
                position: "absolute",
                bottom: 0,
                left: 0,
@@ -22,9 +21,9 @@ export default function TabLayout() {
                borderTopRightRadius: 20,
                paddingHorizontal: 10,
                paddingBottom: 5,
-               borderTopColor: "#E0E0E0",
+               borderTopColor: "#EAEAEA", // Light Gray
             },
-            tabBarShowLabel: true,
+            tabBarShowLabel: true, // Add labels
             tabBarItemStyle: {
                marginHorizontal: 5,
                borderRadius: 10,
@@ -34,28 +33,11 @@ export default function TabLayout() {
          }}
       >
          <Tabs.Screen
-            name="index"
-            options={{
-               title: "Home",
-               tabBarIcon: ({ color, focused }) => (
-                  <Ionicons
-                     name={focused ? "home" : "home-outline"}
-                     size={28}
-                     color={color}
-                  />
-               ),
-            }}
-         />
-         <Tabs.Screen
             name="ambient-light-sensor"
             options={{
                title: "Ambient Light",
-               tabBarIcon: ({ color, focused }) => (
-                  <Ionicons
-                     name={focused ? "sunny" : "sunny-outline"}
-                     size={28}
-                     color={color}
-                  />
+               tabBarIcon: ({ color }) => (
+                  <FontAwesome name="sun-o" size={26} color={color} />
                ),
             }}
          />
@@ -63,39 +45,35 @@ export default function TabLayout() {
             name="magnet-detector"
             options={{
                title: "Magnet Detector",
-               tabBarIcon: ({ color, focused }) => (
-                  <Ionicons
-                     name={focused ? "magnet" : "magnet-outline"}
-                     size={28}
-                     color={color}
-                  />
+               tabBarIcon: ({ color }) => (
+                  <FontAwesome name="magnet" size={26} color={color} />
                ),
             }}
          />
-
+         <Tabs.Screen
+            name="index"
+            options={{
+               title: "Home",
+               tabBarIcon: ({ color }) => (
+                  <FontAwesome name="home" size={30} color={color} />
+               ),
+            }}
+         />
          <Tabs.Screen
             name="ball-game"
             options={{
                title: "Ball Game",
-               tabBarIcon: ({ color, focused }) => (
-                  <Ionicons
-                     name={focused ? "stop-circle" : "stop-circle-outline"}
-                     size={28}
-                     color={color}
-                  />
+               tabBarIcon: ({ color }) => (
+                  <FontAwesome name="futbol-o" size={26} color={color} />
                ),
             }}
          />
          <Tabs.Screen
-            name="tilt-game"
+            name="surface-level-detector"
             options={{
-               title: "Surface",
-               tabBarIcon: ({ color, focused }) => (
-                  <Ionicons
-                     name={focused ? "arrow-redo" : "arrow-redo-outline"}
-                     size={28}
-                     color={color}
-                  />
+               title: "Surface Level",
+               tabBarIcon: ({ color }) => (
+                  <FontAwesome name="arrows" size={26} color={color} />
                ),
             }}
          />
