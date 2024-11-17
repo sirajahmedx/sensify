@@ -25,14 +25,14 @@
             "backgroundColor": "#ffffff"
          },
          "hermes": false,
-         "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
+         "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION", "CAMERA"]
       },
       "web": {
          "bundler": "metro",
          "output": "static",
          "favicon": "./assets/images/favicon.png"
       },
-      "plugins": ["expo-router", "expo-font"],
+      "plugins": ["expo-router", "expo-font", "expo-camera"],
       "experiments": {
          "typedRoutes": true
       }

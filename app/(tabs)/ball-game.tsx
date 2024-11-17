@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
    StyleSheet,
    View,
@@ -10,7 +10,7 @@ import {
 import { Accelerometer } from "expo-sensors";
 
 const { width, height } = Dimensions.get("window");
-const BALL_SIZE = 40;
+const BALL_SIZE = 50;
 const CENTER_THRESHOLD = 10;
 const WIN_DURATION = 5000;
 
@@ -20,27 +20,37 @@ export default function App() {
    const [holdStartTime, setHoldStartTime] = useState(null);
    const [hasWon, setHasWon] = useState(false);
    const [holdProgress, setHoldProgress] = useState(0);
-   const [winAnimation, setWinAnimation] = useState(new Animated.Value(0)); // Animated value for win animation
+   const [winAnimation, setWinAnimation] = useState(new Animated.Value(0));
+   const [isActive, setIsActive] = useState(false);
+   const holdStartTimeRef = useRef(null);
 
    useEffect(() => {
-      const subscription = Accelerometer.addListener((accelerometerData) => {
-         setData(accelerometerData);
-      });
+      let subscription;
 
-      Accelerometer.setUpdateInterval(16);
+      if (isActive) {
+         subscription = Accelerometer.addListener((accelerometerData) => {
+            setData(accelerometerData);
+         });
 
-      return () => subscription.remove();
-   }, []);
+         Accelerometer.setUpdateInterval(16);
+      }
+
+      return () => subscription?.remove();
+   }, [isActive]);
 
    useEffect(() => {
+      if (!isActive) return;
+
       const { x, y } = data;
       setPosition((prev) => ({
          x: Math.max(0, Math.min(width - BALL_SIZE, prev.x - x * 20)),
          y: Math.max(0, Math.min(height - BALL_SIZE, prev.y + y * 20)),
       }));
-   }, [data]);
+   }, [data, isActive]);
 
    useEffect(() => {
+      if (!isActive) return;
+
       const centerX = width / 2;
       const centerY = height / 2;
       const ballCenterX = position.x;
@@ -54,10 +64,10 @@ export default function App() {
 
       if (!hasWon) {
          if (isCentered) {
-            if (!holdStartTime) {
-               setHoldStartTime(Date.now());
+            if (!holdStartTimeRef.current) {
+               holdStartTimeRef.current = Date.now();
             } else {
-               const elapsedTime = Date.now() - holdStartTime;
+               const elapsedTime = Date.now() - holdStartTimeRef.current;
                const newProgress = Math.min(
                   (elapsedTime / WIN_DURATION) * 100,
                   100
@@ -66,7 +76,6 @@ export default function App() {
 
                if (elapsedTime >= WIN_DURATION) {
                   setHasWon(true);
-                  // Start win animation when the player wins
                   Animated.timing(winAnimation, {
                      toValue: 1,
                      duration: 500,
@@ -75,17 +84,17 @@ export default function App() {
                }
             }
          } else {
-            setHoldStartTime(null);
+            holdStartTimeRef.current = null;
             setHoldProgress(0);
          }
       }
-   }, [position, holdStartTime, hasWon]);
+   }, [position, holdStartTimeRef, hasWon, isActive]);
 
    const resetGame = () => {
       setHasWon(false);
       setHoldProgress(0);
-      setHoldStartTime(null);
-      // Reset the animation value when the game is reset
+      holdStartTimeRef.current = null;
+      setPosition({ x: width / 2, y: height / 2 });
       winAnimation.setValue(0);
    };
 
@@ -103,32 +112,30 @@ export default function App() {
       <View style={styles.container}>
          <View style={styles.messageContainer}>
             {hasWon ? (
-               <View style={styles.winContainer}>
-                  <Animated.View
-                     style={[
-                        styles.winTextContainer,
-                        {
-                           opacity: winAnimation, // Animating opacity
-                           transform: [
-                              {
-                                 scale: winAnimation.interpolate({
-                                    inputRange: [0, 1],
-                                    outputRange: [1, 1.5], // Scale from 1 to 1.5
-                                 }),
-                              },
-                           ],
-                        },
-                     ]}
+               <Animated.View
+                  style={[
+                     styles.winTextContainer,
+                     {
+                        opacity: winAnimation,
+                        transform: [
+                           {
+                              scale: winAnimation.interpolate({
+                                 inputRange: [0, 1],
+                                 outputRange: [1, 1.5],
+                              }),
+                           },
+                        ],
+                     },
+                  ]}
+               >
+                  <Text style={styles.winText}>🎉 You Won! 🎉</Text>
+                  <TouchableOpacity
+                     style={styles.resetButton}
+                     onPress={resetGame}
                   >
-                     <Text style={styles.winText}>You Won! 🎉</Text>
-                     <TouchableOpacity
-                        style={styles.resetButton}
-                        onPress={resetGame}
-                     >
-                        <Text style={styles.resetButtonText}>Play Again</Text>
-                     </TouchableOpacity>
-                  </Animated.View>
-               </View>
+                     <Text style={styles.resetButtonText}>Play Again</Text>
+                  </TouchableOpacity>
+               </Animated.View>
             ) : (
                <>
                   <Text style={styles.info}>{getProgressMessage()}</Text>
@@ -147,16 +154,36 @@ export default function App() {
                {
                   left: position.x - BALL_SIZE / 2,
                   top: position.y - BALL_SIZE / 2,
-                  backgroundColor:
-                     holdProgress > 0
-                        ? `rgb(255, ${87 + (168 * holdProgress) / 100}, 34)`
-                        : "#ff5722",
+                  backgroundColor: holdProgress
+                     ? `rgba(255, ${87 + (168 * holdProgress) / 100}, 34, 0.9)`
+                     : "#FF6D3F",
+                  shadowColor: "#FF4500",
+                  shadowOffset: { width: 0, height: 5 },
+                  shadowOpacity: 0.5,
+                  shadowRadius: 15,
                },
             ]}
          />
 
          <View style={styles.centerTarget}>
             <View style={styles.centerDot} />
+         </View>
+
+         <View style={styles.buttonsContainer}>
+            <TouchableOpacity
+               style={[styles.button, isActive && styles.buttonDisabled]}
+               onPress={() => setIsActive(true)}
+               disabled={isActive}
+            >
+               <Text style={styles.buttonText}>Start</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+               style={[styles.button, !isActive && styles.buttonDisabled]}
+               onPress={() => setIsActive(false)}
+               disabled={!isActive}
+            >
+               <Text style={styles.buttonText}>Stop</Text>
+            </TouchableOpacity>
          </View>
       </View>
    );
@@ -165,81 +192,86 @@ export default function App() {
 const styles = StyleSheet.create({
    container: {
       flex: 1,
-      backgroundColor: "#f0f0f0",
       justifyContent: "center",
       alignItems: "center",
+      backgroundColor: "#003973",
    },
    messageContainer: {
       position: "absolute",
       top: 80,
-      left: 0,
-      right: 0,
       alignItems: "center",
-      zIndex: 1,
       paddingHorizontal: 20,
    },
    info: {
-      fontSize: 18,
+      fontSize: 20,
+      color: "#FFF",
       textAlign: "center",
-      marginBottom: 10,
-      color: "#333",
    },
    progressText: {
-      fontSize: 24,
+      fontSize: 28,
       fontWeight: "bold",
-      color: "#ff5722",
+      color: "#FF4500",
    },
    ball: {
       position: "absolute",
       width: BALL_SIZE,
       height: BALL_SIZE,
       borderRadius: BALL_SIZE / 2,
-      backgroundColor: "#ff5722",
-      zIndex: 0,
    },
    centerTarget: {
       position: "absolute",
-      top: height / 2 - 15,
-      left: width / 2 - 15,
-      width: 30,
-      height: 30,
-      borderRadius: 15,
-      borderWidth: 3,
-      borderColor: "rgba(0,0,0,0.5)",
+      top: height / 2 - 25,
+      left: width / 2 - 25,
+      width: 50,
+      height: 50,
+      borderRadius: 25,
+      backgroundColor: "rgba(255,255,255,0.3)",
       justifyContent: "center",
       alignItems: "center",
-      zIndex: 0,
    },
    centerDot: {
-      width: 6,
-      height: 6,
-      borderRadius: 3,
-      backgroundColor: "rgba(0,0,0,0.5)",
-   },
-   winContainer: {
-      alignItems: "center",
+      width: 10,
+      height: 10,
+      borderRadius: 5,
+      backgroundColor: "#FFF",
    },
    winTextContainer: {
       alignItems: "center",
-      justifyContent: "center",
    },
    winText: {
-      fontSize: 24,
+      fontSize: 28,
       fontWeight: "bold",
+      color: "#FFD700",
       marginBottom: 20,
-      color: "#4CAF50",
    },
    resetButton: {
-      backgroundColor: "#007AFF",
-      paddingVertical: 12,
-      paddingHorizontal: 25,
-      borderRadius: 5,
-      alignItems: "center",
-      marginTop: 10,
+      backgroundColor: "#0066FF",
+      paddingVertical: 10,
+      paddingHorizontal: 30,
+      borderRadius: 25,
    },
    resetButtonText: {
-      fontSize: 18,
-      color: "#fff",
-      fontWeight: "bold",
+      color: "#FFF",
+      fontSize: 16,
+   },
+   buttonsContainer: {
+      position: "absolute",
+      bottom: 70,
+      flexDirection: "row",
+      justifyContent: "space-around",
+      width: "80%",
+   },
+   button: {
+      paddingVertical: 12,
+      paddingHorizontal: 20,
+      borderRadius: 20,
+      backgroundColor: "#0066FF",
+   },
+   buttonDisabled: {
+      backgroundColor: "#555",
+   },
+   buttonText: {
+      color: "#FFF",
+      fontSize: 16,
    },
 });

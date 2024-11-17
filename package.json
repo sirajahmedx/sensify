@@ -41,6 +41,7 @@
     "expo-splash-screen": "~0.29.10",
     "expo-status-bar": "~2.0.0",
     "expo-system-ui": "~4.0.3",
+    "expo-three": "^8.0.0",
     "expo-web-browser": "~14.0.1",
     "jest-expo": "~52.0.1",
     "react": "18.3.1",
@@ -53,7 +54,8 @@
     "react-native-screens": "~4.0.0",
     "react-native-svg": "^15.8.0",
     "react-native-vision-camera": "^4.6.1",
-    "react-native-web": "~0.19.10"
+    "react-native-web": "~0.19.10",
+    "three": "^0.166.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
