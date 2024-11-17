@@ -6,7 +6,7 @@ const TiltControlledLightApp: React.FC = () => {
    const [topBarHeight] = useState(new Animated.Value(0)); // Top bar height
    const [bottomBarHeight] = useState(new Animated.Value(0)); // Bottom bar height
    const [tiltAngle, setTiltAngle] = useState(0);
-   const [lightColor] = useState(new Animated.Value(0)); // Controls color
+   const fixedSpacing = 20; // Fixed spacing between center bar and other bars
 
    useEffect(() => {
       Accelerometer.setUpdateInterval(100); // Moderate update rate
@@ -19,16 +19,16 @@ const TiltControlledLightApp: React.FC = () => {
          let topHeight = 0;
          let bottomHeight = 0;
 
-         // Calculate heights based on tilt direction
+         // Calculate heights based on tilt direction, hide at 0 degrees
          if (newTilt > 0) {
-            topHeight = newTilt * 300; // Increased max height for top bar
-            bottomHeight = 0; // Hide bottom bar
+            topHeight = newTilt * 500; // Increased height for top bar
+            bottomHeight = 0;
          } else if (newTilt < 0) {
-            topHeight = 0; // Hide top bar
-            bottomHeight = Math.abs(newTilt) * 300; // Increased max height for bottom bar
+            topHeight = 0;
+            bottomHeight = Math.abs(newTilt) * 500; // Increased height for bottom bar
          }
 
-         // Animate both bars' heights and color based on tilt
+         // Animate both bars' heights
          Animated.parallel([
             Animated.timing(topBarHeight, {
                toValue: topHeight,
@@ -40,70 +40,51 @@ const TiltControlledLightApp: React.FC = () => {
                duration: 150,
                useNativeDriver: false,
             }),
-            Animated.timing(lightColor, {
-               toValue: newTilt,
-               duration: 150,
-               useNativeDriver: false,
-            }),
          ]).start();
       });
 
       return () => subscription.remove();
-   }, [topBarHeight, bottomBarHeight, lightColor]);
-
-   // Interpolated color based on tilt
-   const interpolatedColor = lightColor.interpolate({
-      inputRange: [-1, 0, 1],
-      outputRange: ["#e74c3c", "#00FF00", "#3498db"], // Color shift: red -> green -> blue
-   });
+   }, [topBarHeight, bottomBarHeight]);
 
    return (
       <View style={styles.container}>
-         <Text style={styles.angleText}>
-            Tilt Angle: {Math.round(tiltAngle * 90)}°
-         </Text>
+         <View style={styles.angleContainer}>
+            <Text style={styles.angleText}>
+               Tilt Angle: {Math.round(tiltAngle * 90)}°
+            </Text>
+         </View>
 
          {/* Top Bar */}
-         <Animated.View
-            style={[
-               styles.bar,
-               {
-                  height: topBarHeight,
-                  backgroundColor: interpolatedColor,
-                  position: "absolute",
-                  bottom: "50%", // Align from center
-                  transform: [
-                     {
-                        translateY: topBarHeight.interpolate({
-                           inputRange: [0, 300],
-                           outputRange: [0, -150],
-                        }),
-                     },
-                  ],
-               },
-            ]}
-         />
+         {tiltAngle > 0 && (
+            <Animated.View
+               style={[
+                  styles.bar,
+                  {
+                     height: topBarHeight,
+                     backgroundColor: "#e74c3c", // Red color for top bar
+                     position: "absolute",
+                     bottom: "50%", // Start from the middle
+                     marginBottom: fixedSpacing, // Fixed gap from the center bar
+                  },
+               ]}
+            />
+         )}
 
          {/* Bottom Bar */}
-         <Animated.View
-            style={[
-               styles.bar,
-               {
-                  height: bottomBarHeight,
-                  backgroundColor: interpolatedColor,
-                  position: "absolute",
-                  top: "50%", // Align from center
-                  transform: [
-                     {
-                        translateY: bottomBarHeight.interpolate({
-                           inputRange: [0, 300],
-                           outputRange: [0, 150],
-                        }),
-                     },
-                  ],
-               },
-            ]}
-         />
+         {tiltAngle < 0 && (
+            <Animated.View
+               style={[
+                  styles.bar,
+                  {
+                     height: bottomBarHeight,
+                     backgroundColor: "#e74c3c", // Red color for bottom bar
+                     position: "absolute",
+                     top: "50%", // Start from the middle
+                     marginTop: fixedSpacing, // Fixed gap from the center bar
+                  },
+               ]}
+            />
+         )}
       </View>
    );
 };
@@ -116,16 +97,28 @@ const styles = StyleSheet.create({
       backgroundColor: "#ffffff",
    },
    bar: {
-      width: 200, // Increased width for better visibility
+      width: 150, // Decreased width to make the bar appear less prominent
       borderRadius: 20,
       shadowOpacity: 0.8,
       shadowRadius: 15,
       shadowOffset: { width: 0, height: 0 },
    },
+   centerBar: {
+      width: 150, // Center bar width decreased
+      height: 15, // Increased height for center bar
+      backgroundColor: "#008000", // Green color for the center bar
+      position: "absolute",
+      top: "50%", // Center the bar vertically
+      marginTop: -7.5, // Center the 15px bar height
+   },
+   angleContainer: {
+      position: "absolute",
+      top: 40,
+      right: 20,
+   },
    angleText: {
       color: "#000000",
       fontSize: 20,
-      marginBottom: 20,
    },
 });
 
