@@ -24,7 +24,7 @@ export default function HomeScreen() {
                contentContainerStyle={styles.contentContainer}
             >
                <View style={styles.titleContainer}>
-                  <Text style={styles.title}>Welcome to Sensors Hub!</Text>
+                  <Text style={styles.title}>Welcome to Sensify!</Text>
                   <HelloWave />
                </View>
 
@@ -68,7 +68,7 @@ export default function HomeScreen() {
                   </View>
 
                   <View style={styles.card}>
-                     <Ionicons name="sync-circle" size={32} color="#4dabf7" />
+                     <Ionicons name="stop-circle" size={32} color="#4dabf7" />
                      <Text style={styles.cardTitle}>Ball Game</Text>
                      <Text style={styles.cardDescription}>
                         Navigate a ball using your device's motion sensors to
@@ -76,7 +76,24 @@ export default function HomeScreen() {
                      </Text>
                      <TouchableOpacity
                         style={styles.viewButton}
-                        // onPress={() => router.push("/(tabs)/speed-meter")}
+                        onPress={() => router.push("/(tabs)/ball-game")}
+                     >
+                        <Text style={styles.viewButtonText}>View Sensor</Text>
+                     </TouchableOpacity>
+                  </View>
+
+                  <View style={styles.card}>
+                     <Ionicons name="arrow-redo" size={32} color="#4dabf7" />
+                     <Text style={styles.cardTitle}>
+                        Surface Level Detector
+                     </Text>
+                     <Text style={styles.cardDescription}>
+                        Use your device's tilt sensors to level surfaces
+                        accurately.
+                     </Text>
+                     <TouchableOpacity
+                        style={styles.viewButton}
+                        onPress={() => router.push("/(tabs)/tilt-game")}
                      >
                         <Text style={styles.viewButtonText}>View Sensor</Text>
                      </TouchableOpacity>
@@ -164,15 +181,15 @@ const styles = StyleSheet.create({
       gap: 20,
    },
    card: {
-      backgroundColor: "#ffffff",
+      backgroundColor: "#F7F7F7",
       borderRadius: 16,
       padding: 20,
       alignItems: "center",
       shadowColor: "#000",
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.1,
-      shadowRadius: 8,
-      elevation: 5,
+      shadowOffset: { width: 0, height: 8 },
+      shadowOpacity: 0.2,
+      shadowRadius: 16,
+      elevation: 10,
    },
    cardTitle: {
       fontSize: 18,

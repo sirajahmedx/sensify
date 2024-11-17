@@ -3,13 +3,13 @@ import { View, Text, StyleSheet, Animated } from "react-native";
 import { Accelerometer } from "expo-sensors";
 
 const TiltControlledLightApp: React.FC = () => {
-   const [topBarHeight] = useState(new Animated.Value(0)); // Top bar height
-   const [bottomBarHeight] = useState(new Animated.Value(0)); // Bottom bar height
+   const [topBarHeight] = useState(new Animated.Value(0));
+   const [bottomBarHeight] = useState(new Animated.Value(0));
    const [tiltAngle, setTiltAngle] = useState(0);
-   const fixedSpacing = 20; // Fixed spacing between center bar and other bars
+   const fixedSpacing = 20;
 
    useEffect(() => {
-      Accelerometer.setUpdateInterval(100); // Moderate update rate
+      Accelerometer.setUpdateInterval(100);
 
       const subscription = Accelerometer.addListener((accelerometerData) => {
          const { y } = accelerometerData;
@@ -19,16 +19,14 @@ const TiltControlledLightApp: React.FC = () => {
          let topHeight = 0;
          let bottomHeight = 0;
 
-         // Calculate heights based on tilt direction, hide at 0 degrees
          if (newTilt > 0) {
-            topHeight = newTilt * 500; // Increased height for top bar
+            topHeight = newTilt * 350;
             bottomHeight = 0;
          } else if (newTilt < 0) {
             topHeight = 0;
-            bottomHeight = Math.abs(newTilt) * 500; // Increased height for bottom bar
+            bottomHeight = Math.abs(newTilt) * 350;
          }
 
-         // Animate both bars' heights
          Animated.parallel([
             Animated.timing(topBarHeight, {
                toValue: topHeight,
@@ -49,38 +47,36 @@ const TiltControlledLightApp: React.FC = () => {
    return (
       <View style={styles.container}>
          <View style={styles.angleContainer}>
-            <Text style={styles.angleText}>
-               Tilt Angle: {Math.round(tiltAngle * 90)}°
-            </Text>
+            <Text style={styles.angleText}>{Math.round(tiltAngle * 90)}°</Text>
          </View>
 
-         {/* Top Bar */}
+         {tiltAngle === 0 && <View style={styles.centerBar} />}
+
          {tiltAngle > 0 && (
             <Animated.View
                style={[
                   styles.bar,
                   {
                      height: topBarHeight,
-                     backgroundColor: "#e74c3c", // Red color for top bar
+                     backgroundColor: "#e74c3c",
                      position: "absolute",
-                     bottom: "50%", // Start from the middle
-                     marginBottom: fixedSpacing, // Fixed gap from the center bar
+                     bottom: "50%",
+                     marginBottom: fixedSpacing,
                   },
                ]}
             />
          )}
 
-         {/* Bottom Bar */}
          {tiltAngle < 0 && (
             <Animated.View
                style={[
                   styles.bar,
                   {
                      height: bottomBarHeight,
-                     backgroundColor: "#e74c3c", // Red color for bottom bar
+                     backgroundColor: "#e74c3c",
                      position: "absolute",
-                     top: "50%", // Start from the middle
-                     marginTop: fixedSpacing, // Fixed gap from the center bar
+                     top: "50%",
+                     marginTop: fixedSpacing,
                   },
                ]}
             />
@@ -97,19 +93,19 @@ const styles = StyleSheet.create({
       backgroundColor: "#ffffff",
    },
    bar: {
-      width: 150, // Decreased width to make the bar appear less prominent
+      width: 200,
       borderRadius: 20,
       shadowOpacity: 0.8,
       shadowRadius: 15,
       shadowOffset: { width: 0, height: 0 },
    },
    centerBar: {
-      width: 150, // Center bar width decreased
-      height: 15, // Increased height for center bar
-      backgroundColor: "#008000", // Green color for the center bar
+      width: 150,
+      height: 10,
+      backgroundColor: "#008000",
       position: "absolute",
-      top: "50%", // Center the bar vertically
-      marginTop: -7.5, // Center the 15px bar height
+      top: "50%",
+      marginTop: -5,
    },
    angleContainer: {
       position: "absolute",
@@ -118,7 +114,7 @@ const styles = StyleSheet.create({
    },
    angleText: {
       color: "#000000",
-      fontSize: 20,
+      fontSize: 50,
    },
 });
 

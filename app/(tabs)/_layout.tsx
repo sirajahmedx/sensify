@@ -6,31 +6,30 @@ export default function TabLayout() {
    return (
       <Tabs
          screenOptions={{
-            tabBarActiveTintColor: "#228be6", // Updated primary color for active items
-            tabBarInactiveTintColor: "#242729", // Accent color for inactive items
+            tabBarActiveTintColor: "#228be6",
+            tabBarInactiveTintColor: "#242729",
             headerShown: false,
             tabBarStyle: {
                borderTopWidth: 0,
-               height: 70, // Optimized height for touch targets
-               backgroundColor: "#FFFFFF", // Clean background color
+               height: 70,
+               backgroundColor: "#FFFFFF",
                position: "absolute",
                bottom: 0,
                left: 0,
                right: 0,
-               elevation: 5, // Subtle shadow for depth
+               elevation: 5,
                borderTopLeftRadius: 20,
                borderTopRightRadius: 20,
-               paddingHorizontal: 10, // Balanced horizontal padding
-               paddingBottom: 5, // Consistent bottom padding
-               borderTopColor: "#E0E0E0", // Light border color
+               paddingHorizontal: 10,
+               paddingBottom: 5,
+               borderTopColor: "#E0E0E0",
             },
-            tabBarShowLabel: true, // Show labels for clarity
+            tabBarShowLabel: true,
             tabBarItemStyle: {
-               // backgroundColor: "#F5F5F5", // Soft background for tab items
-               marginHorizontal: 5, // Balanced margin for spacing
+               marginHorizontal: 5,
                borderRadius: 10,
-               marginBottom: 10, // Consistent bottom margin
-               paddingVertical: 8, // Adequate vertical padding for touch targets
+               marginBottom: 10,
+               paddingVertical: 8,
             },
          }}
       >
@@ -80,7 +79,20 @@ export default function TabLayout() {
                title: "Ball Game",
                tabBarIcon: ({ color, focused }) => (
                   <Ionicons
-                     name={focused ? "list-circle" : "mic-circle-outline"}
+                     name={focused ? "stop-circle" : "stop-circle-outline"}
+                     size={28}
+                     color={color}
+                  />
+               ),
+            }}
+         />
+         <Tabs.Screen
+            name="tilt-game"
+            options={{
+               title: "Surface",
+               tabBarIcon: ({ color, focused }) => (
+                  <Ionicons
+                     name={focused ? "arrow-redo" : "arrow-redo-outline"}
                      size={28}
                      color={color}
                   />
