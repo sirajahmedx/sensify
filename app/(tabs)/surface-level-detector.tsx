@@ -81,7 +81,7 @@ const SurfaceLevelDetector: React.FC = () => {
                   styles.bar,
                   {
                      height: bottomBarHeight,
-                     backgroundColor: "#FFEB3B",
+                     backgroundColor: "#FF0000", // Changed color to red
                      position: "absolute",
                      top: "50%",
                      marginTop: fixedSpacing,
@@ -96,7 +96,7 @@ const SurfaceLevelDetector: React.FC = () => {
                   styles.bar,
                   {
                      height: topBarHeight,
-                     backgroundColor: "#E1BEE7",
+                     backgroundColor: "#FF0000", // Changed color to red
                      position: "absolute",
                      bottom: "50%",
                      marginBottom: fixedSpacing,
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
    },
    bar: {
       width: 130,
-      borderRadius: 20,
+      borderRadius: 15,
       shadowOpacity: 0.8,
       shadowRadius: 15,
       shadowOffset: { width: 0, height: 0 },
