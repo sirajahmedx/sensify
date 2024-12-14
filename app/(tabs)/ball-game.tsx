@@ -13,7 +13,7 @@ import { Accelerometer } from "expo-sensors";
 
 const { width, height } = Dimensions.get("window");
 
-const INITIAL_BALL_SIZE = 38;
+const INITIAL_BALL_SIZE = 43;
 const INITIAL_CENTER_THRESHOLD = 10;
 const INITIAL_WIN_DURATION = 5000;
 const MAX_LEVEL = 10;
@@ -72,12 +72,6 @@ export default function App() {
   const advanceLevel = useCallback(() => {
     const nextLevel = Math.min(currentLevel + 1, MAX_LEVEL);
     setCurrentLevel(nextLevel);
-    setIsActive(false);
-    if (nextLevel === MAX_LEVEL) {
-      setCurrentLevel(1);
-      setIsActive(false);
-    }
-
     setScore((prevScore) => prevScore + 1);
 
     const newWinDuration = INITIAL_WIN_DURATION + nextLevel * 1000;
@@ -184,28 +178,7 @@ export default function App() {
 
       <View style={styles.messageContainer}>
         {hasWon ? (
-          <Animated.View
-            style={[
-              styles.winTextContainer,
-              {
-                opacity: winAnimation,
-                transform: [
-                  {
-                    scale: winAnimation.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [1, 1.5],
-                    }),
-                  },
-                  {
-                    rotate: winAnimation.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: ["0deg", "360deg"],
-                    }),
-                  },
-                ],
-              },
-            ]}
-          >
+          <Animated.View style={[styles.winTextContainer, { opacity: winAnimation }]}>
             <Text style={styles.winText}>🎉 Level Up! 🎉</Text>
             <TouchableOpacity style={styles.resetButton} onPress={resetGame}>
               <Text style={styles.resetButtonText}>Continue</Text>
@@ -265,150 +238,135 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#F1F3F6",
+    padding: 20,
   },
   headerContainer: {
     position: "absolute",
-    top: 60,
-    width: "100%",
+    top: 50,
+    zIndex: 1,
     alignItems: "center",
-    paddingVertical: 15,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    backgroundColor: "#F1F1F1",
   },
   headerText: {
     fontSize: 24,
-    fontWeight: "600",
-    color: "#2F4F4F", // Darker gray for a cleaner look
-    letterSpacing: 0.5,
+    fontWeight: "bold",
+    color: "#3E3E3E",
+    textShadowColor: "#E2E2E2",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
   },
   subHeaderText: {
-    fontSize: 18,
-    color: "#7F8C8D", // Lighter gray
+    fontSize: 16,
+    color: "#8C8C8C",
   },
   messageContainer: {
-    position: "absolute",
-    top: 120,
     alignItems: "center",
-    width: "80%",
-    paddingHorizontal: 15,
+    marginTop: 100,
   },
-  info: {
-    fontSize: 20,
-    color: "#000000", // Darker color for the instruction text
-    textAlign: "center",
-    marginTop: 20,
+  winTextContainer: {
+    backgroundColor: "#4CAF50",
+    padding: 20,
+    borderRadius: 15,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 5,
   },
-  progressText: {
+  winText: {
     fontSize: 30,
     fontWeight: "bold",
-    color: "#FF6347", // Vibrant orange for progress text
-    textShadowColor: "rgba(0, 0, 0, 0.2)",
-    textShadowOffset: { width: 1, height: 2 },
-    textShadowRadius: 4,
+    color: "#FFFFFF",
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  progressText: {
+    fontSize: 24,
+    color: "#4CAF50",
+    fontWeight: "bold",
+  },
+  info: {
+    fontSize: 18,
+    color: "#3E3E3E",
+    marginBottom: 20,
+    textAlign: "center",
+    fontStyle: "italic",
+  },
+  resetButton: {
+    backgroundColor: "#FF6D3F",
+    padding: 15,
+    borderRadius: 10,
+    width: 200,
+    alignItems: "center",
+    marginTop: 20,
+  },
+  resetButtonText: {
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   ball: {
     position: "absolute",
     width: INITIAL_BALL_SIZE,
     height: INITIAL_BALL_SIZE,
     borderRadius: INITIAL_BALL_SIZE / 2,
-    shadowColor: "#000",
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 5 },
-    elevation: 8,
+    backgroundColor: "#FF6D3F",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.8,
+    shadowRadius: 6,
   },
   centerTarget: {
     position: "absolute",
     top: height / 2 - 30,
     left: width / 2 - 30,
-    width: 50,
-    height: 50,
-    borderRadius: 40,
-    backgroundColor: "rgba(255, 255, 255, 0.6)",
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: "#4CAF50",
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 3,
-    borderColor: "#007bff", // Blue border for visibility
   },
   centerDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 7.5,
-    backgroundColor: "#007bff", // Bright blue center dot
-  },
-  winTextContainer: {
-    alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
-    padding: 20,
-    borderRadius: 15,
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 5 },
-    elevation: 6,
-  },
-  winText: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#34A853", // Green for win message
-    textAlign: "center",
-    marginBottom: 20,
-    textShadowColor: "rgba(0, 0, 0, 0.1)",
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 5,
-  },
-  resetButton: {
-    backgroundColor: "#007bff", // Blue reset button
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 25,
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    shadowOffset: { width: 0, height: 5 },
-    elevation: 5,
-  },
-  resetButtonText: {
-    color: "#FFF",
-    fontSize: 16,
-    fontWeight: "500",
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: "#4CAF50",
   },
   buttonsContainer: {
-    position: "absolute",
-    bottom: 100,
     flexDirection: "row",
     justifyContent: "space-between",
     width: "80%",
-    paddingHorizontal: 20,
+    position: "absolute",
+    bottom: 50,
+    zIndex: 2,
   },
   button: {
-    flex: 1,
-    marginHorizontal: 10,
-    paddingVertical: 15,
+    backgroundColor: "#4CAF50",
+    padding: 15,
     borderRadius: 30,
-    backgroundColor: "#34A853", // Green for action button
+    width: 120,
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 4 },
     elevation: 5,
   },
   buttonDisabled: {
-    backgroundColor: "#B0BEC5", // Gray for disabled button
+    backgroundColor: "#A1A1A1",
   },
   buttonText: {
-    color: "#FFF",
+    color: "#FFFFFF",
     fontSize: 18,
-    fontWeight: "500",
+    fontWeight: "bold",
   },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.6)", // Semi-transparent backdrop
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
     backgroundColor: "#FFFFFF",
@@ -416,16 +374,15 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: "80%",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.25,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 5 },
-    elevation: 12,
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 5,
   },
   modalText: {
     fontSize: 18,
-    color: "#333",
+    color: "#333333",
+    fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 25,
   },
 });

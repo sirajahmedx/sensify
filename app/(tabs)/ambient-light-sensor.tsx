@@ -92,7 +92,10 @@ const AmbientLightSensor: React.FC = () => {
     try {
       const isAvailable = await LightSensor.isAvailableAsync();
       if (!isAvailable) {
-        Alert.alert("Sensor Unavailable", "Ambient light sensor is not available on this device.");
+        Alert.alert(
+          "Oops! No Ambient Light Sensor Found",
+          "Oh no! It seems like your device doesn't have an ambient light sensor.. 😞 Please try again with a device that has it! 💔 We're really sorry! 😓",
+        );
         return;
       }
 
