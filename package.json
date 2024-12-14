@@ -24,6 +24,7 @@
     "axios": "^1.7.7",
     "expo": "^52.0.0",
     "expo-av": "~15.0.1",
+    "expo-blur": "^14.0.1",
     "expo-brightness": "~13.0.2",
     "expo-camera": "^16.0.5",
     "expo-constants": "~17.0.3",
