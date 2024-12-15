@@ -28,6 +28,32 @@ const FallDetectionApp: React.FC = () => {
   const [isMonitoring, setIsMonitoring] = useState<boolean>(false);
   const [emergencyContact, setEmergencyContact] = useState<string>("");
   const [currentScreen, setCurrentScreen] = useState<ScreenType>("home");
+  const [isSensorAvailable, setIsSensorAvailable] = useState<boolean>(true);
+
+  useEffect(() => {
+    // Check if the magnetometer is available on the device
+    const checkMagnetometerAvailability = async () => {
+      try {
+        const isAvailable = await Sensors.Accelerometer.isAvailableAsync();
+        setIsSensorAvailable(isAvailable);
+      } catch (error) {
+        console.error("Error checking magnetometer availability:", error);
+        setIsSensorAvailable(false);
+      }
+    };
+
+    checkMagnetometerAvailability();
+  }, []);
+
+  useEffect(() => {
+    if (!setIsSensorAvailable) {
+      Alert.alert(
+        "Oops! No Accelometer Found",
+        "Oh no! It seems like your device doesn't have an accelerometer.. 😞 Please try again with a device that has it! 💔 We're really sorry! 😓",
+      );
+    }
+  }, []);
+
   const [sensorData, setSensorData] = useState<{
     acceleration: number;
     orientation: number;

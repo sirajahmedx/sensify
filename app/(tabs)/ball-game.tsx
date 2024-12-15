@@ -8,6 +8,7 @@ import {
   Animated,
   Modal,
   Platform,
+  Alert,
 } from "react-native";
 import { Accelerometer } from "expo-sensors";
 
@@ -35,24 +36,37 @@ export default function App() {
   const [holdProgress, setHoldProgress] = useState<number>(0);
   const [hasWon, setHasWon] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(false);
-
-  const [isSensorAvailable, setIsSensorAvailable] = useState<boolean>(true);
   const [score, setScore] = useState<number>(0);
   const [currentLevel, setCurrentLevel] = useState<number>(1);
   const [winDuration, setWinDuration] = useState<number>(INITIAL_WIN_DURATION);
+  const [isSensorAvailable, setIsSensorAvailable] = useState(true);
+
+  useEffect(() => {
+    // Check if the magnetometer is available on the device
+    const checkMagnetometerAvailability = async () => {
+      try {
+        const isAvailable = await Accelerometer.isAvailableAsync();
+        setIsSensorAvailable(isAvailable);
+      } catch (error) {
+        console.error("Error checking magnetometer availability:", error);
+        setIsSensorAvailable(false);
+      }
+    };
+
+    checkMagnetometerAvailability();
+  }, []);
+
+  useEffect(() => {
+    if (!setIsSensorAvailable) {
+      Alert.alert(
+        "Oops! No Accelometer Found",
+        "Oh no! It seems like your device doesn't have an accelerometer.. 😞 Please try again with a device that has it! 💔 We're really sorry! 😓",
+      );
+    }
+  }, []);
 
   const holdStartTimeRef = useRef<number | null>(null);
   const winAnimation = useRef(new Animated.Value(0)).current;
-
-  const checkSensorAvailability = useCallback(async () => {
-    try {
-      const isAvailable = await Accelerometer.isAvailableAsync();
-      setIsSensorAvailable(isAvailable);
-    } catch (error) {
-      console.error("Sensor availability check failed:", error);
-      setIsSensorAvailable(false);
-    }
-  }, []);
 
   const calculateNewPosition = useCallback(
     (currentPos: Position, accelerationData: AccelerometerData): Position => {
@@ -85,10 +99,6 @@ export default function App() {
     setPosition({ x: width / 2, y: height / 2 });
     winAnimation.setValue(0);
   }, [winAnimation]);
-
-  useEffect(() => {
-    checkSensorAvailability();
-  }, [checkSensorAvailability]);
 
   useEffect(() => {
     let subscription: { remove: () => void } | null = null;
