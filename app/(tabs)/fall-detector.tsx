@@ -28,8 +28,7 @@ const FallDetectionApp: React.FC = () => {
   const [isMonitoring, setIsMonitoring] = useState<boolean>(false);
   const [emergencyContact, setEmergencyContact] = useState<string>("");
   const [currentScreen, setCurrentScreen] = useState<ScreenType>("home");
-  const [isSensorAvailable, setIsSensorAvailable] = useState<boolean>(true);
-
+  const [isSensorAvailable, setIsSensorAvailable] = useState(true);
   useEffect(() => {
     // Check if the magnetometer is available on the device
     const checkMagnetometerAvailability = async () => {
@@ -53,7 +52,6 @@ const FallDetectionApp: React.FC = () => {
       );
     }
   }, []);
-
   const [sensorData, setSensorData] = useState<{
     acceleration: number;
     orientation: number;
@@ -225,6 +223,12 @@ const FallDetectionApp: React.FC = () => {
       <Text style={styles.title}>Fall Detection App</Text>
 
       {/* Emergency Contact Display */}
+      <View style={styles.contactDisplay}>
+        <Text style={styles.contactText}>Emergency Contact: {emergencyContact || "Not Set"}</Text>
+        <TouchableOpacity style={styles.editButton} onPress={() => setCurrentScreen("settings")}>
+          <Text style={styles.editButtonText}>Edit</Text>
+        </TouchableOpacity>
+      </View>
 
       {/* Monitoring Controls */}
       <View style={styles.buttonContainer}>
@@ -246,12 +250,6 @@ const FallDetectionApp: React.FC = () => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={[styles.button, styles.alertButton]} onPress={sendEmergencyAlert}>
           <Text style={styles.buttonText}>Manual Emergency Alert</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.contactDisplay}>
-        <Text style={styles.contactText}>Emergency Contact: {emergencyContact || "Not Set"}</Text>
-        <TouchableOpacity style={styles.editButton} onPress={() => setCurrentScreen("settings")}>
-          <Text style={styles.editButtonText}>Edit</Text>
         </TouchableOpacity>
       </View>
     </View>
