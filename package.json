@@ -23,11 +23,11 @@
     "@tensorflow/tfjs": "^4.22.0",
     "@types/react": "~18.3.12",
     "axios": "^1.7.7",
-    "expo": "^52.0.0",
+    "expo": "~52.0.18",
     "expo-av": "~15.0.1",
     "expo-blur": "^14.0.1",
     "expo-brightness": "~13.0.2",
-    "expo-camera": "^16.0.5",
+    "expo-camera": "~16.0.9",
     "expo-constants": "~17.0.3",
     "expo-dev-client": "^5.0.6",
     "expo-device": "~7.0.1",
@@ -38,7 +38,6 @@
     "expo-local-authentication": "^15.0.1",
     "expo-location": "~18.0.4",
     "expo-notifications": "~0.29.11",
-    "expo-permissions": "~14.4.0",
     "expo-router": "~4.0.5",
     "expo-sensors": "~14.0.1",
     "expo-sms": "^13.0.0",
@@ -72,5 +71,8 @@
     "react-test-renderer": "18.3.1",
     "typescript": "~5.3.3"
   },
-  "private": true
+  "private": true,
+  "repository": "https://github.com/sirajyamin/sensors-hub.git",
+  "author": "sirajyamin <sirajyamin.dev@gmail.com>",
+  "license": "MIT"
 }
