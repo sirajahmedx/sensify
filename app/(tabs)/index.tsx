@@ -80,6 +80,20 @@ export default function HomeScreen() {
                 <Text style={styles.viewButtonText}>View Sensor</Text>
               </TouchableOpacity>
             </View>
+            <View style={styles.card}>
+              <FontAwesome name="bullseye" size={32} color="#B2DFDB" />
+              <Text style={styles.cardTitle}>Fall Detector</Text>
+              <Text style={styles.cardDescription}>
+                If there are sudden changes in the device's orientation, e.x if device falls the
+                device will vibrate and send a notification.
+              </Text>
+              <TouchableOpacity
+                style={styles.viewButton}
+                onPress={() => router.push("/(tabs)/surface-level-detector")}
+              >
+                <Text style={styles.viewButtonText}>View Sensor</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>

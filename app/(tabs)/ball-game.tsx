@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
   },
   messageContainer: {
     alignItems: "center",
-    marginTop: 100,
+    marginTop: 180,
   },
   winTextContainer: {
     backgroundColor: "#16A34A", // Vibrant green for success
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
   resetButton: {
-    backgroundColor: "#DC2626", // Deep red for attention-grabbing action
+    backgroundColor: "blue", // Deep red for attention-grabbing action
     padding: 15,
     borderRadius: 10,
     width: 200,

@@ -73,10 +73,10 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="speedometer"
+        name="fall-detector"
         options={{
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="speedometer" size={30} color={color} />
+            <MaterialCommunityIcons name="bullseye" size={30} color={color} />
           ),
         }}
       />

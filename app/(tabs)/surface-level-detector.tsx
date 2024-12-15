@@ -69,6 +69,8 @@ const SurfaceLevelDetector: React.FC = () => {
         <Text style={styles.angleText}>{Math.round(tiltAngle * 90)}°</Text>
       </View>
 
+      {tiltAngle === 0 && <View style={styles.centerBar} />}
+
       {tiltAngle > 0 && (
         <Animated.View
           style={[
@@ -83,7 +85,6 @@ const SurfaceLevelDetector: React.FC = () => {
           ]}
         />
       )}
-      {tiltAngle < 0 && tiltAngle > 1 && <View style={styles.centerBar} />}
 
       {tiltAngle < 0 && (
         <Animated.View
