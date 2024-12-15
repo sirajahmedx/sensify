@@ -31,13 +31,14 @@ export default function MagnetDetector() {
   const isFocused = useIsFocused();
   const [isPlayingSound, setIsPlayingSound] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
-  const [isMagnetometerAvailable, setIsMagnetometerAvailable] = useState(false);
+  const [isMagnetometerAvailable, setIsMagnetometerAvailable] = useState(true);
 
   useEffect(() => {
     // Check if the magnetometer is available on the device
     const checkMagnetometerAvailability = async () => {
       try {
         const isAvailable = await Magnetometer.isAvailableAsync();
+        console.log("Magnetometer availability:", isAvailable);
         setIsMagnetometerAvailable(isAvailable);
       } catch (error) {
         console.error("Error checking magnetometer availability:", error);
@@ -49,11 +50,13 @@ export default function MagnetDetector() {
   }, []);
 
   useEffect(() => {
-    Alert.alert(
-      "Oops! No Magnetometer Found",
-      "Oh no! It seems like your device doesn't have an magnetometer. 😞 Please try again with a device that has it! 💔 We're really sorry! 😓",
-    );
-  }, [isMagnetometerAvailable]);
+    if (!isMagnetometerAvailable) {
+      Alert.alert(
+        "Oops! No Magnetometer Found",
+        "Oh no! It seems like your device doesn't have an magnetometer. 😞 Please try again with a device that has it! 💔 We're really sorry! 😓",
+      );
+    }
+  }, []);
 
   const magneticStrength = Math.sqrt(
     Math.pow(data.x, 2) + Math.pow(data.y, 2) + Math.pow(data.z, 2),

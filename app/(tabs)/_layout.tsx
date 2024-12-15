@@ -8,11 +8,11 @@ export default function TabLayout() {
         tabBarActiveTintColor: "#29D45B", // Vibrant Green for active tab
         tabBarInactiveTintColor: "#000000", // Soft Gray for inactive tab
         headerShown: false,
+
         tabBarShowLabel: false, // Hides labels
         tabBarStyle: {
           borderTopWidth: 0,
-          width: "80%",
-          marginHorizontal: "10%",
+          marginHorizontal: "auto",
           height: 60, // Increased height for better spacing
           backgroundColor: "#EBEBEB", // Clean white background
           position: "absolute",
@@ -34,6 +34,12 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
+        name="index"
+        options={{
+          tabBarIcon: ({ color }) => <Ionicons name="home-outline" size={28} color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="ambient-light-sensor"
         options={{
           tabBarIcon: ({ color }) => (
@@ -49,12 +55,7 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="index"
-        options={{
-          tabBarIcon: ({ color }) => <Ionicons name="home-outline" size={28} color={color} />,
-        }}
-      />
+
       <Tabs.Screen
         name="ball-game"
         options={{
@@ -68,6 +69,14 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="axis-arrow" size={30} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="speedometer"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="speedometer" size={30} color={color} />
           ),
         }}
       />

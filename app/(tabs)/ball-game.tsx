@@ -186,9 +186,6 @@ export default function App() {
           </Animated.View>
         ) : (
           <>
-            <Text style={styles.info}>
-              Move the ball to the center and hold for {(winDuration / 1000).toFixed(1)} seconds!
-            </Text>
             {holdProgress > 0 && (
               <Text style={styles.progressText}>{Math.floor(holdProgress)}%</Text>
             )}
@@ -238,7 +235,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F1F3F6",
+    backgroundColor: "#EAEAEA", // Light neutral background for modern aesthetics
     padding: 20,
   },
   headerContainer: {
@@ -248,31 +245,31 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerText: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
-    color: "#3E3E3E",
-    textShadowColor: "#E2E2E2",
+    color: "#1E293B", // Dark slate blue for strong, readable headers
+    textShadowColor: "#C7C7C7",
     textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 3,
+    textShadowRadius: 2,
   },
   subHeaderText: {
     fontSize: 16,
-    color: "#8C8C8C",
+    color: "#64748B", // Muted blue-gray for subtle emphasis
   },
   messageContainer: {
     alignItems: "center",
     marginTop: 100,
   },
   winTextContainer: {
-    backgroundColor: "#4CAF50",
+    backgroundColor: "#16A34A", // Vibrant green for success
     padding: 20,
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
     shadowColor: "#000000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
   },
   winText: {
     fontSize: 30,
@@ -283,18 +280,18 @@ const styles = StyleSheet.create({
   },
   progressText: {
     fontSize: 24,
-    color: "#4CAF50",
+    color: "#16A34A",
     fontWeight: "bold",
   },
   info: {
     fontSize: 18,
-    color: "#3E3E3E",
+    color: "#1E293B",
     marginBottom: 20,
     textAlign: "center",
     fontStyle: "italic",
   },
   resetButton: {
-    backgroundColor: "#FF6D3F",
+    backgroundColor: "#DC2626", // Deep red for attention-grabbing action
     padding: 15,
     borderRadius: 10,
     width: 200,
@@ -308,45 +305,43 @@ const styles = StyleSheet.create({
   },
   ball: {
     position: "absolute",
-    width: INITIAL_BALL_SIZE,
-    height: INITIAL_BALL_SIZE,
-    borderRadius: INITIAL_BALL_SIZE / 2,
-    backgroundColor: "#FF6D3F",
+    width: 35, // Realistic size for the ball
+    height: 35,
+    borderRadius: 20,
+    backgroundColor: "#F59E0B", // Bright amber for energetic focus
     justifyContent: "center",
     alignItems: "center",
     shadowColor: "#000000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.8,
-    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
   },
   centerTarget: {
     position: "absolute",
     top: height / 2 - 30,
     left: width / 2 - 30,
-    width: 60,
+    width: 60, // The target ring remains the same size for emphasis
     height: 60,
-    borderRadius: 30,
-    borderWidth: 2,
-    borderColor: "#4CAF50",
+    borderColor: "#0EA5E9", // Cool blue for calm targeting visuals
     justifyContent: "center",
     alignItems: "center",
   },
   centerDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: "#4CAF50",
+    width: 20, // Adjusted to a realistic size based on the ball
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: "#0EA5E9", // Matching dot color with the target ring
   },
   buttonsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "80%",
     position: "absolute",
-    bottom: 50,
+    bottom: 80,
     zIndex: 2,
   },
   button: {
-    backgroundColor: "#4CAF50",
+    backgroundColor: "#16A34A", // Green for positive interaction
     padding: 15,
     borderRadius: 30,
     width: 120,
@@ -355,7 +350,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   buttonDisabled: {
-    backgroundColor: "#A1A1A1",
+    backgroundColor: "#A3A3A3", // Light gray for disabled state
   },
   buttonText: {
     color: "#FFFFFF",
@@ -381,7 +376,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: 18,
-    color: "#333333",
+    color: "#374151", // Slightly dark gray for modal text
     fontWeight: "bold",
     textAlign: "center",
   },
