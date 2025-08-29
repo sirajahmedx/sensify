@@ -1,50 +1,39 @@
-# Welcome to your Expo app 👋
+# Sensify
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Sensify is a mobile app suite providing useful sensor-based tools for your device. Built with Expo and React Native, it offers:
 
-## Get started
+## Main Features
 
-1. Install dependencies
+- **Ambient Light Sensor**: Measure surrounding light levels.
+- **Magnet Detector**: Detect magnetic fields with feedback.
+- **Ball Game**: Use motion sensors to control a ball.
+- **Surface Level Detector**: Level surfaces using tilt sensors.
+- **Fall Detector**: Detect sudden device falls and send alerts.
 
+## Quick Start
+
+1. Install dependencies:
    ```bash
    npm install
    ```
-
-2. Start the app
-
+2. Run the app:
    ```bash
-    npx expo start
+   npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+Open the app on your device using Expo Go, or in an emulator/simulator.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Project Structure
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- `app/` — Main app screens and sensor tools
+- `components/` — Reusable UI components
+- `assets/` — Images, fonts, and sounds
 
-## Get a fresh project
+## Requirements
 
-When you're ready, run:
+- Node.js & npm
+- Expo CLI (`npm install -g expo-cli`)
 
-```bash
-npm run reset-project
-```
+## License
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+MIT
